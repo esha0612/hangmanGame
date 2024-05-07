@@ -60,6 +60,7 @@ public class HangmanGame {
         currentCategory = "";
         currentWord = "";
         currentWordDescription = "";
+        discoveredChars = null;
     }
 
     public String getGuessedLetters() {
@@ -93,4 +94,9 @@ public class HangmanGame {
     public String getCurrentWordDescription() {
         return this.currentWordDescription;
     }
+
+    public String getCurrentWord() {
+        return this.currentWord;
+    }
+
 }

@@ -12,10 +12,10 @@ public class GUI implements ActionListener {
     private JFrame frame;
     private JTextField inputField;
 
-    private JButton guessButton, pickCategoryButton;
+    private JButton guessButton, pickCategoryButton, retryButton;
     private JLabel wordLabel, wordText, categoryLabel, categoryText, remaingAttemptsLabel,
             remaingAttemptsText, guessedLettersLabel, guessedLettersText, gameSuccessLabel, gameFailedLabel,
-            hangmanImageLabel;
+            hangmanImageLabel, wordDescriptionLabel;
     private JComboBox categoryList;
     private int frameWidth = 500, frameHeight = 300;
 
@@ -174,8 +174,16 @@ public class GUI implements ActionListener {
         frame.setSize(frameWidth, frameHeight);
         frame.setLayout(new FlowLayout());
 
-        gameSuccessLabel = new JLabel("You correctly guessed the word");
+        gameSuccessLabel = new JLabel("You correctly guessed the word: " + game.getCurrentWord());
         frame.add(gameSuccessLabel);
+
+        wordDescriptionLabel = new JLabel(game.getCurrentWordDescription());
+        frame.add(wordDescriptionLabel);
+
+        retryButton = new JButton("Play Again");
+        retryButton.addActionListener(this);
+        frame.add(retryButton);
+
         frame.setVisible(true);
 
     }
@@ -188,9 +196,13 @@ public class GUI implements ActionListener {
         frame.setSize(frameWidth, frameHeight);
         frame.setLayout(new FlowLayout());
 
-        gameFailedLabel = new JLabel("You could not guess it this time. Try again");
+        gameFailedLabel = new JLabel("You could not guess it this time.");
         frame.add(gameFailedLabel);
         frame.setVisible(true);
+
+        retryButton = new JButton("Play Again");
+        retryButton.addActionListener(this);
+        frame.add(retryButton);
 
     }
 
@@ -239,6 +251,9 @@ public class GUI implements ActionListener {
             game.guess(inputField.getText().toLowerCase().charAt(0));
             inputField.setText(null);
             setGameState();
+        } else if (e.getSource() == retryButton) {
+            game.resetGame();
+            showCategorySelectionScreen();
         }
     }
 
