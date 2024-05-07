@@ -26,7 +26,7 @@ public class HangmanGame {
         this.currentWord = currentWordArr[0].toLowerCase();
         this.currentWordDescription = currentWordArr[1];
         this.discoveredChars = new char[currentWord.length()];
-        java.util.Arrays.fill(discoveredChars, '_');
+        java.util.Arrays.fill(discoveredChars, ' ');
 
         System.out.println("Selected word is " + currentWord);
 
@@ -71,7 +71,19 @@ public class HangmanGame {
     }
 
     public String getCurrentProgress() {
-        return new String(discoveredChars);
+        String displayString = "";
+        for (int i = 0; i < discoveredChars.length; i++) {
+            if (i > 0) {
+                displayString += " ";
+            }
+
+            if (discoveredChars[i] != ' ') {
+                displayString += " " + discoveredChars[i] + " ";
+            } else {
+                displayString += "___";
+            }
+        }
+        return displayString;
     }
 
     public String getCurrentCategory() {

@@ -1,17 +1,23 @@
 package org.evergreen.anya;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.File;
+import java.net.URL;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class GUI implements ActionListener {
     private JFrame frame;
     private JTextField inputField;
+
     private JButton guessButton, pickCategoryButton;
     private JLabel wordLabel, wordText, categoryLabel, categoryText, remaingAttemptsLabel,
-            remaingAttemptsText, guessedLettersLabel, guessedLettersText, gameSuccessLabel, gameFailedLabel;
+            remaingAttemptsText, guessedLettersLabel, guessedLettersText, gameSuccessLabel, gameFailedLabel,
+            hangmanImageLabel;
     private JComboBox categoryList;
-    private int frameWidth = 500, frameHeight = 700;
+    private int frameWidth = 500, frameHeight = 300;
 
     private HangmanGame game;
 
@@ -33,17 +39,40 @@ public class GUI implements ActionListener {
         String[] categories = game.getCategories();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(frameWidth, frameHeight);
-        frame.setLayout(new FlowLayout());
+        frame.setLayout(new BorderLayout());
+
+        JPanel panelNorth = new JPanel();
+        panelNorth.add(new JLabel("Please select the desired category and clik on the 'Go' button to play"));
+        panelNorth.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        JPanel panelSouth = new JPanel();
+        panelSouth.add(new JLabel("Enjoy"));
+        panelSouth.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        JPanel panelCenter = new JPanel();
+        panelCenter.setLayout(new FlowLayout(FlowLayout.CENTER));
+        JPanel panelCenterGrid = new JPanel();
+        panelCenterGrid.setLayout(new GridLayout(1, 2, 5, 5));
+        panelCenter.add(panelCenterGrid);
+
+        JPanel panelCenterLeft = new JPanel();
+        JPanel panelCenterRight = new JPanel();
+        panelCenterGrid.add(panelCenterLeft);
+        panelCenterGrid.add(panelCenterRight);
 
         categoryLabel = new JLabel("Category");
-        frame.add(categoryLabel);
+        panelCenterLeft.add(categoryLabel);
 
         categoryList = new JComboBox(categories);
-        frame.add(categoryList);
+        panelCenterLeft.add(categoryList);
 
         pickCategoryButton = new JButton("Go");
         pickCategoryButton.addActionListener(this);
-        frame.add(pickCategoryButton);
+        panelCenterRight.add(pickCategoryButton);
+
+        frame.add(panelNorth, BorderLayout.NORTH);
+        frame.add(panelSouth, BorderLayout.SOUTH);
+        frame.add(panelCenter, BorderLayout.CENTER);
 
         frame.setVisible(true);
     }
@@ -55,39 +84,81 @@ public class GUI implements ActionListener {
 
         frame = new JFrame("Anya's Hangman Game: Guess Word");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(frameWidth, frameHeight);
-        frame.setLayout(new FlowLayout());
+        frame.setSize(frameWidth, frameHeight + 300);
+        frame.setLayout(new BorderLayout());
 
+        JPanel panelNorth = new JPanel();
+        panelNorth.add(new JLabel("Guess an alphabet and press 'Guess'"));
+        panelNorth.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        JPanel panelSouth = new JPanel();
+        panelSouth.add(new JLabel("Don't let him hang"));
+        panelSouth.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        JPanel panelCenter = new JPanel();
+        JPanel panelCenterGrid = new JPanel();
+        panelCenterGrid.setLayout(new GridLayout(1, 2, 5, 5));
+        panelCenter.add(panelCenterGrid);
+
+        JPanel panelCenterLeft = new JPanel();
+        JPanel panelCenterRight = new JPanel();
+        panelCenterRight.setLayout(new GridLayout(10, 1, 5, 5));
+        panelCenterGrid.add(panelCenterLeft);
+        panelCenterGrid.add(panelCenterRight);
+
+        // HM Image
+        hangmanImageLabel = new JLabel();
+        panelCenterLeft.add(hangmanImageLabel);
+
+        // Category
+        JPanel categoryPanel = new JPanel();
+        panelCenterRight.add(categoryPanel);
+        categoryPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         categoryLabel = new JLabel("Category:");
-        frame.add(categoryLabel);
-
+        categoryPanel.add(categoryLabel);
         categoryText = new JLabel(category);
-        frame.add(categoryText);
+        categoryPanel.add(categoryText);
 
+        // Guessed Word
+        JPanel guessedWordPanel = new JPanel();
+        panelCenterRight.add(guessedWordPanel);
+        guessedWordPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         wordLabel = new JLabel("Guessed Word:");
-        frame.add(wordLabel);
-
+        guessedWordPanel.add(wordLabel);
         wordText = new JLabel("");
-        frame.add(wordText);
+        guessedWordPanel.add(wordText);
 
+        // remaining Attempts
+        JPanel remainingAttemptsPanel = new JPanel();
+        panelCenterRight.add(remainingAttemptsPanel);
+        remainingAttemptsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         remaingAttemptsLabel = new JLabel("Remaining Attempts:");
-        frame.add(remaingAttemptsLabel);
-
+        remainingAttemptsPanel.add(remaingAttemptsLabel);
         remaingAttemptsText = new JLabel("");
-        frame.add(remaingAttemptsText);
+        remainingAttemptsPanel.add(remaingAttemptsText);
 
+        // Letters Guessed So Far
+        JPanel guessedSoFarPanel = new JPanel();
+        panelCenterRight.add(guessedSoFarPanel);
+        guessedSoFarPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         guessedLettersLabel = new JLabel("Letters Guessed:");
-        frame.add(guessedLettersLabel);
-
+        guessedSoFarPanel.add(guessedLettersLabel);
         guessedLettersText = new JLabel("");
-        frame.add(guessedLettersText);
+        guessedSoFarPanel.add(guessedLettersText);
 
-        inputField = new JTextField(20);
-        frame.add(inputField);
-
+        // Input
+        JPanel inputPanel = new JPanel();
+        panelCenterRight.add(inputPanel);
+        inputPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        inputField = new JTextField(2);
+        inputPanel.add(inputField);
         guessButton = new JButton("Guess");
         guessButton.addActionListener(this);
-        frame.add(guessButton);
+        inputPanel.add(guessButton);
+
+        frame.add(panelNorth, BorderLayout.NORTH);
+        frame.add(panelSouth, BorderLayout.SOUTH);
+        frame.add(panelCenter, BorderLayout.CENTER);
 
         setGameState();
 
@@ -128,6 +199,7 @@ public class GUI implements ActionListener {
         setCategoryText();
         setRemaingAttemptsText();
         setGuessedLettersText();
+        setHangmanImage();
 
         if (game.isWordDiscovered()) {
             showGameSuccessScreen();
@@ -150,6 +222,12 @@ public class GUI implements ActionListener {
 
     private void setGuessedLettersText() {
         guessedLettersText.setText(game.getGuessedLetters());
+    }
+
+    private void setHangmanImage() {
+        int failedAttempts = 6 - game.getRemainingAttempts();
+        URL u = getClass().getResource("../../../resources/hm" + failedAttempts + ".jpeg");
+        hangmanImageLabel.setIcon(new ImageIcon(u));
     }
 
     @Override
