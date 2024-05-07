@@ -1,12 +1,9 @@
 package org.evergreen.anya;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.*;
-import java.io.File;
 import java.net.URL;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class GUI implements ActionListener {
     private JFrame frame;
@@ -17,7 +14,7 @@ public class GUI implements ActionListener {
             remaingAttemptsText, guessedLettersLabel, guessedLettersText, gameSuccessLabel, gameFailedLabel,
             hangmanImageLabel, wordDescriptionLabel;
     private JComboBox categoryList;
-    private int frameWidth = 500, frameHeight = 300;
+    private int frameWidth = 700, frameHeight = 300;
 
     private HangmanGame game;
 

@@ -24,7 +24,7 @@ public class Animals extends WordCategory {
 
         // Add Lion
         wordsWithDescription[4][0] = "Lion";
-        wordsWithDescription[4][1] = "Lion is the kind of the Jungle";
+        wordsWithDescription[4][1] = "Lion is the king of the Jungle";
 
     }
 

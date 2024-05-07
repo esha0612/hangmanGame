@@ -45,8 +45,10 @@ public class Words {
 
     public String[] getCategories() {
         String[] categoryNames = new String[this.catogries.length];
-        for (int i = 0; i < this.catogries.length; i++) {
-            categoryNames[i] = this.catogries[i].getCategory();
+        int i = 0;
+        for (WordCategory wc : this.catogries) {
+            categoryNames[i] = wc.getCategory();
+            i++;
         }
         return categoryNames;
     }
@@ -60,12 +62,15 @@ public class Words {
     }
 
     private WordCategory searchCategory(String category) {
-        for (int i = 0; i < this.catogries.length; i++) {
+        WordCategory wc = null;
+        int i = 0;
+        while (wc == null) {
             if (this.catogries[i].getCategory().equals(category)) {
-                return this.catogries[i];
+                wc = this.catogries[i];
             }
+            i++;
         }
-        return null;
+        return wc;
     }
 
 }
