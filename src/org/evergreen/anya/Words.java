@@ -1,7 +1,5 @@
 package org.evergreen.anya;
 
-import java.util.Random;
-
 public class Words {
 
     // Constructor()
@@ -56,9 +54,8 @@ public class Words {
     public String[] PickWord(String category) {
 
         WordCategory wordCategory = this.searchCategory(category);
-        Random random = new Random();
 
-        int randomIndex = random.nextInt(wordCategory.wordsWithDescription.length);
+        int randomIndex = (int) (Math.random() * wordCategory.wordsWithDescription.length);
         return wordCategory.wordsWithDescription[randomIndex];
     }
 

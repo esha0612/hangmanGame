@@ -4,6 +4,7 @@ public class HangmanGame {
     private char[] discoveredChars;
     private String guessedLetters;
     private int remainingAttempts;
+    private String currentCategory;
     private String currentWord;
     private String currentWordDescription;
     private Words words;
@@ -21,10 +22,13 @@ public class HangmanGame {
     public void chooseCategory(String category) {
 
         String[] currentWordArr = words.PickWord(category);
-        this.currentWord = currentWordArr[0];
+        currentCategory = category;
+        this.currentWord = currentWordArr[0].toLowerCase();
         this.currentWordDescription = currentWordArr[1];
         this.discoveredChars = new char[currentWord.length()];
         java.util.Arrays.fill(discoveredChars, '_');
+
+        System.out.println("Selected word is " + currentWord);
 
     }
 
@@ -41,13 +45,21 @@ public class HangmanGame {
         if (!isCorrect) {
             remainingAttempts--;
         }
+        System.out.println("Discovered:" + String.valueOf(discoveredChars));
         return isCorrect;
+    }
+
+    public boolean isWordDiscovered() {
+        return this.currentWord.equals(String.valueOf(discoveredChars));
     }
 
     public void resetGame() {
         java.util.Arrays.fill(discoveredChars, '_');
         guessedLetters = "";
         remainingAttempts = 6;
+        currentCategory = "";
+        currentWord = "";
+        currentWordDescription = "";
     }
 
     public String getGuessedLetters() {
@@ -60,5 +72,13 @@ public class HangmanGame {
 
     public String getCurrentProgress() {
         return new String(discoveredChars);
+    }
+
+    public String getCurrentCategory() {
+        return this.currentCategory;
+    }
+
+    public String getCurrentWordDescription() {
+        return this.currentWordDescription;
     }
 }
