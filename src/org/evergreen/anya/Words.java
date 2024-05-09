@@ -7,7 +7,7 @@ public class Words {
 
     Words() {
 
-        // Load Words
+        // Load Words - Inheritence
         catogries = new WordCategory[2];
         catogries[0] = new Animals();
         catogries[1] = new Fruits();
