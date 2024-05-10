@@ -1,4 +1,3 @@
-package org.evergreen.anya;
 
 public class WordCategory {
     protected String category;

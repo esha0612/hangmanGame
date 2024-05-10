@@ -1,4 +1,3 @@
-package org.evergreen.anya;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -32,7 +31,7 @@ public class GUI implements ActionListener {
 
     private void showCategorySelectionScreen() {
 
-        frame = new JFrame("Anya's Hangman Game: Select a Category");
+        frame = new JFrame("Hangman Game: Select a Category");
         String[] categories = game.getCategories();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(frameWidth, frameHeight);
@@ -79,7 +78,7 @@ public class GUI implements ActionListener {
 
         this.game.chooseCategory(category);
 
-        frame = new JFrame("Anya's Hangman Game: Guess Word");
+        frame = new JFrame("Hangman Game: Guess Word");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(frameWidth, frameHeight + 300);
         frame.setLayout(new BorderLayout());
@@ -166,7 +165,7 @@ public class GUI implements ActionListener {
     private void showGameSuccessScreen() {
         frame.dispose();
 
-        frame = new JFrame("Anya's Hangman Game: Congratulations! You did it");
+        frame = new JFrame("Hangman Game: Congratulations! You did it");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(frameWidth, frameHeight);
         frame.setLayout(new BorderLayout());
@@ -206,18 +205,39 @@ public class GUI implements ActionListener {
     private void showGameFailedcreen() {
         frame.dispose();
 
-        frame = new JFrame("Anya's Hangman Game: Better Luck Next Time");
+        frame = new JFrame("Hangman Game: Better Luck Next Time");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(frameWidth, frameHeight);
-        frame.setLayout(new FlowLayout());
+        frame.setLayout(new BorderLayout());
 
-        gameFailedLabel = new JLabel("You could not guess it this time.");
-        frame.add(gameFailedLabel);
-        frame.setVisible(true);
+        JPanel panelNorth = new JPanel();
+        panelNorth.add(new JLabel("Tough Luck"));
+        panelNorth.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        JPanel panelSouth = new JPanel();
+        panelSouth.add(new JLabel("Keep trying"));
+        panelSouth.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        JPanel panelCenter = new JPanel();
+        JPanel panelCenterGrid = new JPanel();
+        panelCenterGrid.setLayout(new GridLayout(4, 1, 5, 5));
+        panelCenter.add(panelCenterGrid);
+
+        gameFailedLabel = new JLabel("You could not guess it this time. The word was " + game.getCurrentWord());
+        panelCenterGrid.add(gameFailedLabel);
+
+        learnMoreBtn = new JButton("Learn more about: " + game.getCurrentWord());
+        learnMoreBtn.addActionListener(this);
+        panelCenterGrid.add(learnMoreBtn);
 
         retryButton = new JButton("Play Again");
         retryButton.addActionListener(this);
-        frame.add(retryButton);
+        panelCenterGrid.add(retryButton);
+
+        frame.add(panelNorth, BorderLayout.NORTH);
+        frame.add(panelSouth, BorderLayout.SOUTH);
+        frame.add(panelCenter, BorderLayout.CENTER);
+        frame.setVisible(true);
 
     }
 
@@ -253,7 +273,7 @@ public class GUI implements ActionListener {
 
     private void setHangmanImage() {
         int failedAttempts = 6 - game.getRemainingAttempts();
-        URL u = getClass().getResource("../../../resources/hm" + failedAttempts + ".jpeg");
+        URL u = getClass().getResource("resources/hm" + failedAttempts + ".jpeg");
         hangmanImageLabel.setIcon(new ImageIcon(u));
     }
 

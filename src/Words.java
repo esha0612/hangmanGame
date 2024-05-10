@@ -1,4 +1,3 @@
-package org.evergreen.anya;
 
 public class Words {
 
