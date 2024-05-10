@@ -26,7 +26,9 @@ public class HangmanGame {
         this.currentWord = currentWordArr[0].toLowerCase();
         this.currentWordDescription = currentWordArr[1];
         this.discoveredChars = new char[currentWord.length()];
-        java.util.Arrays.fill(discoveredChars, ' ');
+        for (int i = 0; i < discoveredChars.length; i++) {
+            discoveredChars[i] = ' ';
+        }
 
         System.out.println("Selected word is " + currentWord);
 
@@ -72,19 +74,31 @@ public class HangmanGame {
     }
 
     public String getCurrentProgress() {
-        String displayString = "";
-        for (int i = 0; i < discoveredChars.length; i++) {
-            if (i > 0) {
-                displayString += " ";
-            }
+        return buildProgress(discoveredChars, 0, "");
+    }
 
-            if (discoveredChars[i] != ' ') {
-                displayString += " " + discoveredChars[i] + " ";
-            } else {
-                displayString += "___";
-            }
+    // Build Progress String recursively
+    private static String buildProgress(char[] discoveredChars, int index, String displayString) {
+        // Base case: if the index is equal to the length of the array, return the
+        // displayString.
+        if (index == discoveredChars.length) {
+            return displayString;
         }
-        return displayString;
+
+        // Add a space before each character except the first.
+        if (index > 0) {
+            displayString += " ";
+        }
+
+        // Check the current character and update displayString accordingly.
+        if (discoveredChars[index] != ' ') {
+            displayString += " " + discoveredChars[index] + " ";
+        } else {
+            displayString += "___";
+        }
+
+        // Recursive call with the next index.
+        return buildProgress(discoveredChars, index + 1, displayString);
     }
 
     public String getCurrentCategory() {
