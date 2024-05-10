@@ -1,15 +1,16 @@
+import java.util.ArrayList;
 
-public class Words {
+public class GameData {
 
     // Constructor()
-    private WordCategory[] catogries;
+    private ArrayList<WordCategory> categories;
 
-    Words() {
+    GameData() {
 
         // Load Words - Inheritence
-        catogries = new WordCategory[2];
-        catogries[0] = new Animals();
-        catogries[1] = new Fruits();
+        categories = new ArrayList<WordCategory>();
+        categories.add(new Animals());
+        categories.add(new Fruits());
 
         // Sort Based on Categories
         this.sortCategories();
@@ -17,19 +18,19 @@ public class Words {
     }
 
     private void sortCategories() {
-        int n = catogries.length;
+        int n = categories.size();
         int i, j;
         WordCategory temp;
         boolean swapped;
         for (i = 0; i < n - 1; i++) {
             swapped = false;
             for (j = 0; j < n - i - 1; j++) {
-                if (catogries[j].getCategory().compareTo(catogries[j + 1].getCategory()) > 0) {
+                if (categories.get(j).getCategory().compareTo(categories.get(j + 1).getCategory()) > 0) {
 
                     // Swap arr[j] and arr[j+1]
-                    temp = catogries[j];
-                    catogries[j] = catogries[j + 1];
-                    catogries[j + 1] = temp;
+                    temp = categories.get(j);
+                    categories.set(j,categories.get(j + 1));
+                    categories.set((j + 1),temp);
                     swapped = true;
                 }
             }
@@ -43,29 +44,29 @@ public class Words {
     }
 
     public String[] getCategories() {
-        String[] categoryNames = new String[this.catogries.length];
+        String[] categoryNames = new String[this.categories.size()];
         int i = 0;
-        for (WordCategory wc : this.catogries) {
+        for (WordCategory wc : this.categories) {
             categoryNames[i] = wc.getCategory();
             i++;
         }
         return categoryNames;
     }
 
-    public String[] PickWord(String category) {
+    public WordInfo pickWord(String category) {
 
         WordCategory wordCategory = this.searchCategory(category);
 
-        int randomIndex = (int) (Math.random() * wordCategory.wordsWithDescription.length);
-        return wordCategory.wordsWithDescription[randomIndex];
+        int randomIndex = (int) (Math.random() * wordCategory.getWordsWithDescription().size());
+        return wordCategory.getWordsWithDescription().get(randomIndex);
     }
 
     private WordCategory searchCategory(String category) {
         WordCategory wc = null;
         int i = 0;
         while (wc == null) {
-            if (this.catogries[i].getCategory().equals(category)) {
-                wc = this.catogries[i];
+            if (this.categories.get(i).getCategory().equals(category)) {
+                wc = this.categories.get(i);
             }
             i++;
         }

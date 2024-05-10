@@ -6,34 +6,31 @@ public class HangmanGame {
     private String currentCategory;
     private String currentWord;
     private String currentWordDescription;
-    private Words words;
+    private GameData gameData;
 
     public HangmanGame() {
-        words = new Words();
+        gameData = new GameData();
         this.guessedLetters = "";
         this.remainingAttempts = 6; // Default number of attempts
     }
 
     public String[] getCategories() {
-        return words.getCategories();
+        return gameData.getCategories();
     }
 
     public void chooseCategory(String category) {
 
-        String[] currentWordArr = words.PickWord(category);
+        WordInfo currentWordInfo = gameData.pickWord(category);
         currentCategory = category;
-        this.currentWord = currentWordArr[0].toLowerCase();
-        this.currentWordDescription = currentWordArr[1];
+        this.currentWord = currentWordInfo.getWord().toLowerCase();
+        this.currentWordDescription = currentWordInfo.getDescription();
         this.discoveredChars = new char[currentWord.length()];
         for (int i = 0; i < discoveredChars.length; i++) {
             discoveredChars[i] = ' ';
         }
-
-        System.out.println("Selected word is " + currentWord);
-
     }
 
-    // Possiby add recurrsion
+
     public boolean guess(char letter) {
         boolean isCorrect = false;
         guessedLetters += letter;
@@ -46,7 +43,6 @@ public class HangmanGame {
         if (!isCorrect) {
             remainingAttempts--;
         }
-        System.out.println("Discovered:" + String.valueOf(discoveredChars));
         return isCorrect;
     }
 
