@@ -273,6 +273,7 @@ public class GUI implements ActionListener {
 
             final JDialog modalFrame = new JDialog(frame, game.getCurrentCategory() + " : " + game.getCurrentWord(),
                     true);
+            modalFrame.setMinimumSize(new Dimension(500, 500));
             JPanel moreInfoPanel = new JPanel();
             moreInfoPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
             wordDescriptionLabel = new JLabel();
