@@ -1,6 +1,7 @@
 import java.util.ArrayList;
+import java.net.URL;
 
-public class WordCategory {
+public  class WordCategory {
 
     private String category;
     private ArrayList<WordInfo> wordsWithDescription;
@@ -11,7 +12,7 @@ public class WordCategory {
     }
 
     public void addWord(String word, String wordDescription){
-        wordsWithDescription.add(new WordInfo(word, wordDescription));
+        wordsWithDescription.add(new WordInfo(word, wordDescription, this));
     }
 
     public String getCategory() {
@@ -20,5 +21,10 @@ public class WordCategory {
 
     public ArrayList<WordInfo> getWordsWithDescription() {
         return this.wordsWithDescription;
+    }
+
+    public  URL getCategoryIcon(){
+        URL u = getClass().getResource("resources/general.jpeg");
+        return u;
     }
 }

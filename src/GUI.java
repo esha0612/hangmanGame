@@ -11,7 +11,7 @@ public class GUI implements ActionListener {
     private JButton guessButton, pickCategoryButton, retryButton, learnMoreBtn;
     private JLabel wordLabel, wordText, categoryLabel, categoryText, remaingAttemptsLabel,
             remaingAttemptsText, guessedLettersLabel, guessedLettersText, gameSuccessLabel, gameFailedLabel,
-            hangmanImageLabel, wordDescriptionLabel, learnMoreLabel;
+            hangmanImageLabel, wordDescriptionLabel, learnMoreLabel,categoryIconLabel;
     private JComboBox categoryList;
     private int frameWidth = 700, frameHeight = 300;
 
@@ -114,6 +114,9 @@ public class GUI implements ActionListener {
         categoryPanel.add(categoryLabel);
         categoryText = new JLabel(category);
         categoryPanel.add(categoryText);
+        categoryIconLabel = new JLabel();
+        categoryPanel.add(categoryText);
+
 
         // Guessed Word
         JPanel guessedWordPanel = new JPanel();
@@ -247,6 +250,7 @@ public class GUI implements ActionListener {
         setRemaingAttemptsText();
         setGuessedLettersText();
         setHangmanImage();
+        setCategoryIcon();
 
         if (game.isWordDiscovered()) {
             showGameSuccessScreen();
@@ -277,6 +281,10 @@ public class GUI implements ActionListener {
         hangmanImageLabel.setIcon(new ImageIcon(u));
     }
 
+    private void setCategoryIcon() {
+        URL u = game.getCurrentCategoryIcon();
+         categoryIconLabel.setIcon(new ImageIcon(u));
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
 

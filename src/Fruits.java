@@ -1,3 +1,5 @@
+import java.net.URL;
+
 
 public class Fruits extends WordCategory {
 
@@ -10,6 +12,11 @@ public class Fruits extends WordCategory {
         super.addWord("Pears","Fiber");
         super.addWord("Watermelon","Are huge");
 
+    }
+
+    public URL getCategoryIcon(){
+        URL u = getClass().getResource("resources/fruits.jpeg");
+        return u;
     }
 
 }

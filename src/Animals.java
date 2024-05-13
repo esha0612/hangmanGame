@@ -1,3 +1,4 @@
+import java.net.URL;
 
 public class Animals extends WordCategory {
 
@@ -8,6 +9,11 @@ public class Animals extends WordCategory {
         super.addWord("Cow","Cows give milk");
         super.addWord("Pig","Pigs are not clean");
         super.addWord("Lion","Lion is the king of the Jungle");
+    }
+
+    public URL getCategoryIcon(){
+        URL u = getClass().getResource("resources/aminals.jpeg");
+        return u;
     }
 
 }

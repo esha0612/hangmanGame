@@ -1,9 +1,11 @@
+import java.net.URL;
 
 public class HangmanGame {
     private char[] discoveredChars;
     private String guessedLetters;
     private int remainingAttempts;
     private String currentCategory;
+    private URL currentCategoryIcon;
     private String currentWord;
     private String currentWordDescription;
     private GameData gameData;
@@ -28,6 +30,7 @@ public class HangmanGame {
         for (int i = 0; i < discoveredChars.length; i++) {
             discoveredChars[i] = ' ';
         }
+        currentCategoryIcon = currentWordInfo.getCategory().getCategoryIcon();
     }
 
 
@@ -51,7 +54,9 @@ public class HangmanGame {
     }
 
     public void resetGame() {
-        java.util.Arrays.fill(discoveredChars, '_');
+        for (int i = 0; i < discoveredChars.length; i++) {
+            discoveredChars[i] = ' ';
+        }
         guessedLetters = "";
         remainingAttempts = 6;
         currentCategory = "";
@@ -98,6 +103,10 @@ public class HangmanGame {
 
     public String getCurrentCategory() {
         return this.currentCategory;
+    }
+
+    public URL getCurrentCategoryIcon() {
+        return this.currentCategoryIcon;
     }
 
     public String getCurrentWordDescription() {

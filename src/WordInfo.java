@@ -2,10 +2,12 @@ public class WordInfo {
 
     private String word;
     private String description;
+    private WordCategory category;
 
-    public WordInfo(String word, String description){
+    public WordInfo(String word, String description,WordCategory category){
         this.word = word;
         this.description = description;
+        this.category = category;
     }
 
     public void setDescription(String description) {
@@ -22,6 +24,10 @@ public class WordInfo {
 
     public String getWord(){
         return this.word;
+    }
+
+    public WordCategory getCategory(){
+        return this.category;
     }
 }
 
